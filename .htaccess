@@ -1,0 +1,43 @@
+<IfModule mod_rewrite>
+
+  # Enable mod_rewrite
+  RewriteEngine On
+
+  # Specify the folder in which the application resides.
+  # Use / if the application is in the root.
+  RewriteBase /web
+
+  # Rewrite to correct domain to avoid canonicalization problems
+  # RewriteCond %{HTTP_HOST} !^www\.example\.com
+  # RewriteRule ^(.*)$ http://www.example.com/$1 [R=301,L]
+
+  # Rewrite URLs ending in /index.php or /index.html to /
+  RewriteCond %{THE_REQUEST} ^GET\ .*/index\.(php|html?)\ HTTP
+  RewriteRule ^(.*)index\.(php|html?)$ $1 [R=301,L]
+  
+  
+  # My Part
+  RewriteRule ^user/account-details/?$ index.php?User&AccountDetails [L]
+  RewriteRule ^account-details/?$ index.php?AccountDetails [L]
+  RewriteRule ^user/?$ index.php [L]
+  
+  # End
+
+  # Rewrite category pages
+  RewriteRule ^.*-d([0-9]+)/.*-c([0-9]+)/page-([0-9]+)/?$ index.php?Depart
+mentId=$1&CategoryId=$2&Page=$3 [L]
+  RewriteRule ^.*-d([0-9]+)/.*-c([0-9]+)/?$ index.php?DepartmentId=$1&Cate
+goryId=$2 [L]
+
+  # Rewrite department pages
+  RewriteRule ^.*-d([0-9]+)/page-([0-9]+)/?$ index.php?DepartmentId=$1&Pag
+e=$2 [L]
+  RewriteRule ^.*-d([0-9]+)/?$ index.php?DepartmentId=$1 [L]
+
+  # Rewrite subpages of the home page
+  RewriteRule ^page-([0-9]+)/?$ index.php?Page=$1 [L]
+
+  # Rewrite product details pages
+  RewriteRule ^.*-p([0-9]+)/?$ index.php?ProductId=$1 [L]
+
+</IfModule>
